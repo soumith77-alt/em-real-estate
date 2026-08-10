@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Self-hosted fonts — see public/fonts/README.md                     */
+/* If the woff2 files are absent, the platform fallback stack below   */
+/* keeps metrics close enough that layout does not shift.             */
+/* ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Public Sans";
+  src: url("/fonts/public-sans-variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/plex-mono-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/plex-mono-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tokens                                                              */
+/* ------------------------------------------------------------------ */
+:root {
+  --ink: #111820;
+  --slate: #38475a;
+  --slate-2: #56657a;
+  --blueprint: #23486e;
+  --blueprint-hover: #1a3757;
+  --paper: #eceef1;
+  --card: #f8f9fa;
+  --card-2: #f2f4f6;
+  --rule: #c9cfd7;
+  --rule-2: #dde1e6;
+  --pass: #2e6a57;
+  --pass-tint: #dfe9e4;
+  --fail: #9e3520;
+  --fail-tint: #f0d9d3;
+  --na: #8a929c;
+  --na-tint: #e4e6ea;
+  --signal: #b57516;
+  --signal-tint: #f3e2c8;
+
+  --font-display:
+    "Archivo", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body:
+    "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono:
+    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-slate: var(--slate);
+  --color-slate-2: var(--slate-2);
+  --color-blueprint: var(--blueprint);
+  --color-blueprint-hover: var(--blueprint-hover);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-rule: var(--rule);
+  --color-rule-2: var(--rule-2);
+  --color-pass: var(--pass);
+  --color-pass-tint: var(--pass-tint);
+  --color-fail: var(--fail);
+  --color-fail-tint: var(--fail-tint);
+  --color-na: var(--na);
+  --color-na-tint: var(--na-tint);
+  --color-signal: var(--signal);
+  --color-signal-tint: var(--signal-tint);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+/* ------------------------------------------------------------------ */
+/* Reset + base                                                        */
+/* ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Tabular numerals for anything wearing the mono class */
+.font-mono,
+[class*="font-mono"] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Eyebrow labels: display font, small caps, tracked */
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--slate);
+  font-weight: 500;
+}
+
+/* Data cell — mono, right-aligned, no font shift on hover */
+.data-cell {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Focus rings — visible, always */
+:focus-visible {
+  outline: 2px solid var(--blueprint);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skeleton pulse */
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+.skeleton {
+  background: var(--rule-2);
+  border-radius: 3px;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skeleton {
+    opacity: 0.7;
+  }
+}
+
+/* Scrollbar — quiet */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--slate-2);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Hairline rule utility */
+.hairline {
+  border-color: var(--rule);
+}
