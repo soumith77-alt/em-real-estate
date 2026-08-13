@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import type { CandidateAssessment, Criterion, CriteriaSet } from "@/types";
 import { CriterionCell } from "./CriterionCell";
 import { ProvenanceChip } from "@/components/pipeline/ProvenanceChip";
@@ -32,6 +32,16 @@ const GROUP_LABEL: Record<Criterion["group"], string> = {
   likelihood: "Likelihood",
 };
 
+const GROUP_COLOR: Record<Criterion["group"], string> = {
+  legal: "bg-fail",
+  physical: "bg-blueprint",
+  size: "bg-slate-2",
+  market: "bg-accent-lea",
+  momentum: "bg-accent-acq",
+  mix: "bg-pass",
+  likelihood: "bg-signal",
+};
+
 export function CriteriaMatrix({ set, assessment, brand }: Props) {
   const [failsOnly, setFailsOnly] = useState(false);
 
@@ -39,8 +49,7 @@ export function CriteriaMatrix({ set, assessment, brand }: Props) {
     const map = new Map<Criterion["group"], Criterion[]>();
     for (const g of GROUP_ORDER) map.set(g, []);
     for (const c of set.criteria) map.get(c.group)?.push(c);
-    for (const arr of map.values())
-      arr.sort((a, b) => a.number - b.number);
+    for (const arr of map.values()) arr.sort((a, b) => a.number - b.number);
     return map;
   }, [set]);
 
@@ -64,19 +73,19 @@ export function CriteriaMatrix({ set, assessment, brand }: Props) {
   }
 
   return (
-    <div className="border border-rule rounded-sm bg-card">
-      <div className="flex items-center justify-between px-4 h-11 border-b border-rule">
+    <div className="card overflow-hidden">
+      <div className="flex items-center justify-between px-5 h-12 border-b border-rule">
         <div className="flex items-center gap-3">
-          <div className="font-display text-[13px] font-medium tracking-tight">
+          <div className="font-display text-[14px] font-medium tracking-tight text-ink">
             All {set.criteria.length} criteria · {brand}
           </div>
           {failCount > 0 && (
-            <span className="text-[11px] text-fail bg-fail-tint border border-fail/30 rounded-sm px-2 py-0.5 font-mono">
+            <span className="text-[11px] text-fail bg-fail-tint border border-fail/30 rounded-md px-2 py-0.5 font-mono">
               {failCount} deterministic fail{failCount === 1 ? "" : "s"}
             </span>
           )}
         </div>
-        <label className="flex items-center gap-2 text-[12px] text-slate cursor-pointer">
+        <label className="flex items-center gap-2 text-[12px] text-slate cursor-pointer hover:text-ink transition-colors">
           <input
             type="checkbox"
             checked={failsOnly}
@@ -89,15 +98,15 @@ export function CriteriaMatrix({ set, assessment, brand }: Props) {
 
       <div className="max-h-[70vh] overflow-y-auto">
         <table className="w-full border-collapse text-[12px]">
-          <thead className="sticky top-0 bg-card-2 z-10 border-b border-rule">
+          <thead className="sticky top-0 bg-card-2 z-10 border-b border-rule shadow-sm">
             <tr>
-              <th className="eyebrow text-left px-3 h-8 w-[36px]">#</th>
-              <th className="eyebrow text-left px-3 h-8">Criterion</th>
-              <th className="eyebrow text-left px-3 h-8 w-[130px]">
+              <th className="eyebrow text-left px-3 h-9 w-[36px]">#</th>
+              <th className="eyebrow text-left px-3 h-9">Criterion</th>
+              <th className="eyebrow text-left px-3 h-9 w-[110px]">
                 Provenance
               </th>
-              <th className="eyebrow text-left px-3 h-8 w-[180px]">Result</th>
-              <th className="eyebrow text-left px-3 h-8">Evidence</th>
+              <th className="eyebrow text-left px-3 h-9 w-[180px]">Result</th>
+              <th className="eyebrow text-left px-3 h-9">Evidence</th>
             </tr>
           </thead>
           <tbody>
@@ -115,13 +124,24 @@ export function CriteriaMatrix({ set, assessment, brand }: Props) {
               if (visibleCrits.length === 0) return null;
 
               return (
-                <>
-                  <tr key={`h-${g}`} className="bg-paper">
+                <Fragment key={g}>
+                  <tr className="bg-paper">
                     <td
                       colSpan={5}
-                      className="px-3 py-1.5 eyebrow text-ink border-t border-rule"
+                      className="px-0 py-2 eyebrow text-ink border-t border-rule relative"
                     >
-                      {GROUP_LABEL[g]} · {crits.length} criteria
+                      <span
+                        className={cn(
+                          "absolute left-0 top-0 bottom-0 w-[3px]",
+                          GROUP_COLOR[g],
+                        )}
+                      />
+                      <span className="pl-4">
+                        {GROUP_LABEL[g]}{" "}
+                        <span className="text-slate-2 ml-1 font-mono normal-case tracking-normal">
+                          · {crits.length}
+                        </span>
+                      </span>
                     </td>
                   </tr>
                   {visibleCrits.map((c) => {
@@ -135,37 +155,51 @@ export function CriteriaMatrix({ set, assessment, brand }: Props) {
                       <tr
                         key={c.id}
                         className={cn(
-                          "border-b border-rule-2 align-top",
-                          isFail && "bg-fail-tint/40",
+                          "border-b border-rule-2 align-top group relative hover:bg-paper/60 transition-colors",
                           isNa && "text-slate",
                         )}
                       >
-                        <td className="px-3 py-2.5 font-mono text-slate-2 text-[11px]">
+                        {isFail && (
+                          <td className="p-0 absolute left-0 top-0 bottom-0 w-[3px] bg-fail" />
+                        )}
+                        <td className="px-3 py-3 font-mono text-slate-2 text-[11px]">
                           {c.number}
                         </td>
-                        <td className="px-3 py-2.5">
-                          <div className="text-ink">{c.name}</div>
+                        <td className="px-3 py-3">
+                          <div
+                            className={cn(
+                              "text-ink leading-snug",
+                              isFail && "text-fail font-medium",
+                            )}
+                          >
+                            {c.name}
+                          </div>
                           {c.rule && (
-                            <div className="text-[11px] text-slate mt-0.5">
+                            <div className="text-[11px] text-slate mt-0.5 leading-snug">
                               {c.rule}
                             </div>
                           )}
                         </td>
-                        <td className="px-3 py-2.5">
+                        <td className="px-3 py-3">
                           <ProvenanceChip provenance={c.provenance} />
                         </td>
-                        <td className="px-3 py-2.5">
+                        <td className="px-3 py-3">
                           <CriterionCell result={r} />
                         </td>
-                        <td className="px-3 py-2.5 text-slate">
+                        <td className="px-3 py-3 text-slate">
                           {r?.kind === "deterministic" ? (
                             <>
-                              <span>{r.evidence}</span>
+                              <span className={cn(isFail && "text-ink")}>
+                                {r.evidence}
+                              </span>
                               {r.sourceDocId && (
-                                <div className="text-[11px] text-slate-2 mt-0.5 flex items-center gap-1">
-                                  <ChevronRight size={10} /> {r.sourceDocId}
-                                  {r.sourcePage != null &&
-                                    `, p.${r.sourcePage}`}
+                                <div className="text-[11px] text-slate-2 mt-1 flex items-center gap-1">
+                                  <ChevronRight size={10} />
+                                  <span className="font-mono">
+                                    {r.sourceDocId}
+                                    {r.sourcePage != null &&
+                                      `, p.${r.sourcePage}`}
+                                  </span>
                                 </div>
                               )}
                             </>
@@ -180,7 +214,7 @@ export function CriteriaMatrix({ set, assessment, brand }: Props) {
                       </tr>
                     );
                   })}
-                </>
+                </Fragment>
               );
             })}
           </tbody>

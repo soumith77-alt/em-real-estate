@@ -35,27 +35,54 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* Tokens                                                              */
+/* Design tokens — warmed palette, 13 Aug 2026 redesign               */
+/* Names preserved from original so all existing usages resolve; only */
+/* the *values* shifted. This is the single change that reflows the   */
+/* whole app's aesthetic without touching individual components.      */
 /* ------------------------------------------------------------------ */
 :root {
-  --ink: #111820;
-  --slate: #38475a;
-  --slate-2: #56657a;
-  --blueprint: #23486e;
-  --blueprint-hover: #1a3757;
-  --paper: #eceef1;
-  --card: #f8f9fa;
-  --card-2: #f2f4f6;
-  --rule: #c9cfd7;
-  --rule-2: #dde1e6;
-  --pass: #2e6a57;
-  --pass-tint: #dfe9e4;
-  --fail: #9e3520;
-  --fail-tint: #f0d9d3;
-  --na: #8a929c;
-  --na-tint: #e4e6ea;
-  --signal: #b57516;
-  --signal-tint: #f3e2c8;
+  /* Surfaces — warm neutrals */
+  --paper: #f7f5f1;
+  --card: #ffffff;
+  --card-2: #f1eee9;
+  --rule: #e4e0da;
+  --rule-2: #ede9e2;
+
+  /* Ink — warm dark, not blue-black */
+  --ink: #1e1b18;
+  --slate: #4a4640;
+  --slate-2: #6d675e;
+
+  /* Primary accent — deep teal (kept token name "blueprint" so refs work) */
+  --blueprint: #1f5a6d;
+  --blueprint-hover: #17475a;
+  --blueprint-tint: #dcebf0;
+
+  /* State colors — friendlier, more saturated but still grown-up */
+  --pass: #2e7d5c;
+  --pass-tint: #dceee5;
+  --fail: #b8412b;
+  --fail-tint: #f4ddd5;
+  --na: #8a8378;
+  --na-tint: #e8e4dd;
+  --signal: #c97f16;
+  --signal-tint: #f7e7cb;
+
+  /* Per-section accent hints — used sparingly for identity */
+  --accent-acq: #5b4cbb; /* acquisitions: deep violet */
+  --accent-acq-tint: #e7e3f7;
+  --accent-lea: #c97f16; /* leasing: amber (aligns with signal) */
+  --accent-lea-tint: #f7e7cb;
+  --accent-know: #1f5a6d; /* knowledge: teal (aligns with primary) */
+  --accent-know-tint: #dcebf0;
+
+  /* Shadows — soft, warm */
+  --shadow-sm: 0 1px 2px rgba(30, 27, 24, 0.04),
+    0 1px 3px rgba(30, 27, 24, 0.06);
+  --shadow-md: 0 2px 8px rgba(30, 27, 24, 0.05),
+    0 4px 16px rgba(30, 27, 24, 0.04);
+  --shadow-lg: 0 8px 24px rgba(30, 27, 24, 0.08),
+    0 12px 40px rgba(30, 27, 24, 0.06);
 
   --font-display:
     "Archivo", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -71,6 +98,7 @@
   --color-slate-2: var(--slate-2);
   --color-blueprint: var(--blueprint);
   --color-blueprint-hover: var(--blueprint-hover);
+  --color-blueprint-tint: var(--blueprint-tint);
   --color-paper: var(--paper);
   --color-card: var(--card);
   --color-card-2: var(--card-2);
@@ -84,6 +112,12 @@
   --color-na-tint: var(--na-tint);
   --color-signal: var(--signal);
   --color-signal-tint: var(--signal-tint);
+  --color-accent-acq: var(--accent-acq);
+  --color-accent-acq-tint: var(--accent-acq-tint);
+  --color-accent-lea: var(--accent-lea);
+  --color-accent-lea-tint: var(--accent-lea-tint);
+  --color-accent-know: var(--accent-know);
+  --color-accent-know-tint: var(--accent-know-tint);
 
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
@@ -145,11 +179,55 @@ button {
   text-align: right;
 }
 
-/* Focus rings — visible, always */
+/* Card utility — the new default surface for raised content.
+   Softer than a hairline border, warmer than a flat panel. */
+.card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.card-lift {
+  transition:
+    box-shadow 160ms ease-out,
+    transform 160ms ease-out,
+    border-color 160ms ease-out;
+}
+.card-lift:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--blueprint) 40%, var(--rule));
+}
+
+/* Section accent bars — used at the top or side of cards to hint at
+   which workspace they belong to. */
+.accent-bar-acq {
+  background: linear-gradient(
+    90deg,
+    var(--accent-acq) 0%,
+    color-mix(in oklab, var(--accent-acq) 55%, transparent) 100%
+  );
+}
+.accent-bar-lea {
+  background: linear-gradient(
+    90deg,
+    var(--accent-lea) 0%,
+    color-mix(in oklab, var(--accent-lea) 55%, transparent) 100%
+  );
+}
+.accent-bar-know {
+  background: linear-gradient(
+    90deg,
+    var(--accent-know) 0%,
+    color-mix(in oklab, var(--accent-know) 55%, transparent) 100%
+  );
+}
+
+/* Focus rings — visible, warm */
 :focus-visible {
   outline: 2px solid var(--blueprint);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 /* Skeleton pulse */
@@ -164,8 +242,42 @@ button {
 }
 .skeleton {
   background: var(--rule-2);
-  border-radius: 3px;
+  border-radius: 6px;
   animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+/* Subtle animated shimmer on the left of an in-flight pipeline stage. */
+@keyframes running-shimmer {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.running-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--blueprint) 0%,
+    color-mix(in oklab, var(--blueprint) 45%, var(--card)) 50%,
+    var(--blueprint) 100%
+  );
+  background-size: 200% 100%;
+  animation: running-shimmer 1.6s linear infinite;
+}
+
+/* Pulse for the "in sync" live indicator on Home */
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.live-dot {
+  animation: live-pulse 2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -180,7 +292,7 @@ button {
   }
 }
 
-/* Scrollbar — quiet */
+/* Scrollbar — quiet, warm */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;

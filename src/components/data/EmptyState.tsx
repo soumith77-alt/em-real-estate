@@ -21,22 +21,22 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "border border-dashed border-rule rounded-sm bg-card/40 p-8 text-center",
+        "border border-dashed border-rule rounded-lg bg-card/60 p-10 text-center",
         className,
       )}
     >
-      <div className="font-display text-[15px] font-medium text-ink">
+      <div className="font-display text-[16px] font-medium text-ink">
         {title}
       </div>
       {body && (
-        <div className="text-[13px] text-slate mt-1.5 max-w-md mx-auto">
+        <div className="text-[13px] text-slate mt-2 max-w-md mx-auto leading-relaxed">
           {body}
         </div>
       )}
       {action && (
         <Link
           href={action.href}
-          className="mt-4 inline-flex h-9 px-4 items-center bg-blueprint text-card rounded-sm text-[13px] font-medium hover:bg-blueprint-hover"
+          className="mt-5 inline-flex h-10 px-5 items-center bg-blueprint text-card rounded-md text-[13px] font-medium hover:bg-blueprint-hover shadow-sm hover:shadow-md transition-all duration-150"
         >
           {action.label}
         </Link>
@@ -44,7 +44,7 @@ export function EmptyState({
       {onAction && (
         <button
           onClick={onAction}
-          className="mt-4 inline-flex h-9 px-4 items-center bg-blueprint text-card rounded-sm text-[13px] font-medium hover:bg-blueprint-hover"
+          className="mt-5 inline-flex h-10 px-5 items-center bg-blueprint text-card rounded-md text-[13px] font-medium hover:bg-blueprint-hover shadow-sm hover:shadow-md transition-all duration-150"
         >
           {actionLabel ?? "Continue"}
         </button>

@@ -64,3 +64,50 @@ One orchestrated moment: the pipeline run. Stages settle in sequence, log lines 
 - No icon-heavy nav. Typographic labels win in a dense product.
 - No global chart dashboard on the home screen. Two charts total in the whole app (rent-over-time in B, funnel in A).
 - No hero image on login. A private tool doesn't need a hero.
+
+---
+
+## Redesign — 13 Aug 2026
+
+### Why
+
+Original palette ("ink and blueprint") was the correct opening move for a technical evaluator, but too clinical for the non-technical end user. The buyer signalled a wish for more warmth and life without losing the seriousness. The redesign shifts the aesthetic **from engineering-drawing severity to designed-professional-tool** — Linear's density with Airbnb's warmth and Stripe Dashboard's typographic care — while keeping every trust-critical detail intact.
+
+### Palette shift
+
+Token names preserved so every existing reference resolves; only values changed.
+
+- **Surface warmth.** `--paper` from `#eceef1` (cool grey) → `#f7f5f1` (warm off-white). `--card` bumped to pure white for stronger contrast against warm paper. `--rule` softened and warmed to `#e4e0da`.
+- **Ink warmed.** `#111820` → `#1e1b18` — no longer blue-black, sits better next to warm paper.
+- **Primary accent shifted from blueprint blue to deep teal.** `--blueprint` `#23486e` → `#1f5a6d`. Same token name, more grown-up hue. Added `--blueprint-tint` for tinted backgrounds.
+- **Per-section accent identity added.** `--accent-acq` deep violet (Acquisitions), `--accent-lea` amber (Leasing), `--accent-know` teal (Knowledge). Each with a matching tint. Used sparingly — sidebar active-item bars, stat-block icon backgrounds, source chips on Attention items. Never used as body colour.
+- **State colours** friendlier and more saturated but still grown-up. `--pass` deeper green, `--fail` warmer red-brick, `--signal` amber with more life.
+- **Shadow tokens introduced.** `--shadow-sm/md/lg` soft warm shadows replace hairline-only surfaces on raised cards.
+
+### Primitives really overhauled
+
+- `globals.css` — full token rewrite, new `.card` and `.card-lift` utilities, section accent-bar utilities, running-shimmer + live-pulse keyframes.
+- `Sidebar.tsx` — icon per nav item (lucide), grouped by heading (Overview / Workflows / Reference / System), active-item left accent bar in the section's colour.
+- `Topbar.tsx` — taller (60px), spotlight-style search chip, gradient avatar mixing the two workspace-y accents.
+- `StatBlock.tsx` — proper cards with icon chip in section colour + bottom accent bar that grows on hover; `card-lift` translate-Y hover.
+- `home/page.tsx` — hero band with soft radial-tint background, larger typography, "workspace synced" live-pulse indicator, redesigned Attention list (severity bars + surface chips), reports as tile grid, right-rail "What this workspace knows" with icon.
+- `login/page.tsx` — ambient two-tone background wash, softer inputs with focus ring, three trust marker chips (SOC 2 / Encrypted / Single-tenant).
+- `ProvenanceChip.tsx` — tighter labels ("Det" / "AI"), consistent rounded-md shape.
+- `CriteriaMatrix.tsx` — group headers get a coloured left band per group, sticky header has a subtle shadow when sticky, fail-row uses a left accent bar instead of full-row tint.
+- `FunnelDiagram.tsx` — bars use a horizontal gradient, "− N dropped" microcopy between stages, final stage number bigger to feel triumphant.
+- `StageRow.tsx` — running stage gets a `running-shimmer` on its left border, log panel has a fade-to-ink gradient at the bottom, chevron indicator for expandable state.
+- `EmptyState.tsx` — larger padding, primary button has real shadow lift on hover.
+
+### What was preserved (deliberately)
+
+- The criterion glyph language (filled square = pass, hollow-square-with-slash = fail, muted diamond = does not apply, 5-segment bar = AI score). This is the trust argument — softening these would undermine the whole "deterministic vs AI" distinction.
+- All 52 criteria still render for every candidate, including "does not apply" — never collapsed, never hidden.
+- Monospaced tabular numerals everywhere for money, sqft, PSF, dates, scores.
+- The "no autonomy" copy — every framed note on Expiry Watch, the Run pipeline button subtitle, and the recommendation cards is untouched.
+- Fixtures, engines, API layer, and types — zero changes.
+
+### Verification
+
+- `pnpm typecheck` — clean
+- `pnpm build` — clean, 27 routes
+- `pnpm dev` — `/login`, `/home`, `/leasing`, `/acquisitions`, `/knowledge/retailers` all return 200

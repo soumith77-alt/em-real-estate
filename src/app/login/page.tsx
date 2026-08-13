@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "@/stores/useSession";
-import { Lock } from "lucide-react";
+import { Lock, ShieldCheck, Server, Cpu } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,29 +28,53 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen grid place-items-center bg-paper px-4">
-      <div className="w-full max-w-[420px]">
+    <div className="relative min-h-screen grid place-items-center bg-paper px-4 overflow-hidden">
+      {/* Ambient background wash */}
+      <div
+        className="absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, var(--accent-know-tint) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute -bottom-40 -left-40 w-[420px] h-[420px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, var(--accent-lea-tint) 0%, transparent 70%)",
+          opacity: 0.7,
+        }}
+      />
+
+      <div className="relative w-full max-w-[440px]">
         <div className="mb-8 flex items-center gap-3">
-          <div className="grid place-items-center h-9 w-9 rounded-sm bg-ink text-card font-display font-semibold tracking-tight">
+          <div
+            className="grid place-items-center h-10 w-10 rounded-lg font-display font-semibold tracking-tight text-ink text-[15px] shadow-sm"
+            style={{
+              background:
+                "linear-gradient(135deg, #ffffff 0%, var(--accent-lea-tint) 100%)",
+            }}
+          >
             EM
           </div>
           <div>
-            <div className="font-display text-[15px] font-medium tracking-tight text-ink">
+            <div className="font-display text-[16px] font-medium tracking-tight text-ink">
               EM Real Estate
             </div>
-            <div className="eyebrow">Private workspace</div>
+            <div className="eyebrow !text-slate-2">Private workspace</div>
           </div>
         </div>
 
         <form
           onSubmit={onSubmit}
-          className="bg-card border border-rule rounded-sm p-6 space-y-5"
+          className="card p-7 space-y-5"
+          style={{ boxShadow: "var(--shadow-md)" }}
         >
           <div>
-            <h1 className="font-display text-[20px] font-medium tracking-tight text-ink">
+            <h1 className="font-display text-[22px] font-medium tracking-tight text-ink">
               Sign in
             </h1>
-            <p className="text-[13px] text-slate mt-1">
+            <p className="text-[13px] text-slate mt-1.5">
               This workspace is private to EM Real Estate.
             </p>
           </div>
@@ -61,7 +85,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-10 px-3 border border-rule bg-paper rounded-sm text-[14px] focus:outline-none focus:border-blueprint"
+              className="w-full h-11 px-3.5 border border-rule bg-paper rounded-md text-[14px] focus:outline-none focus:border-blueprint focus:ring-2 focus:ring-blueprint/20 transition-all duration-150"
               autoComplete="email"
             />
             {email && !emailValid && (
@@ -77,7 +101,7 @@ export default function LoginPage() {
               type="password"
               value={pw}
               onChange={(e) => setPw(e.target.value)}
-              className="w-full h-10 px-3 border border-rule bg-paper rounded-sm text-[14px] focus:outline-none focus:border-blueprint"
+              className="w-full h-11 px-3.5 border border-rule bg-paper rounded-md text-[14px] focus:outline-none focus:border-blueprint focus:ring-2 focus:ring-blueprint/20 transition-all duration-150"
               autoComplete="current-password"
             />
             {pw && !pwValid && (
@@ -88,7 +112,7 @@ export default function LoginPage() {
           </label>
 
           {err && (
-            <div className="text-[13px] text-fail bg-fail-tint border border-fail/30 rounded-sm px-3 py-2">
+            <div className="text-[13px] text-fail bg-fail-tint border border-fail/30 rounded-md px-3 py-2">
               {err}
             </div>
           )}
@@ -96,7 +120,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full h-10 bg-blueprint text-card rounded-sm text-[14px] font-medium hover:bg-blueprint-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-11 bg-blueprint text-card rounded-md text-[14px] font-medium hover:bg-blueprint-hover transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
           >
             {busy ? "Signing in…" : "Sign in"}
           </button>
@@ -115,10 +139,24 @@ export default function LoginPage() {
           </div>
         </form>
 
+        <div className="mt-5 flex items-center justify-center gap-4 text-[10px] uppercase tracking-widest text-slate-2 font-medium">
+          <span className="inline-flex items-center gap-1">
+            <ShieldCheck size={11} /> SOC 2 in progress
+          </span>
+          <span className="text-rule">·</span>
+          <span className="inline-flex items-center gap-1">
+            <Cpu size={11} /> Encrypted at rest
+          </span>
+          <span className="text-rule">·</span>
+          <span className="inline-flex items-center gap-1">
+            <Server size={11} /> Single-tenant
+          </span>
+        </div>
+
         {showReset && (
           <div
             role="dialog"
-            className="mt-4 bg-card border border-rule rounded-sm p-4 text-[13px] text-slate"
+            className="mt-4 card p-4 text-[13px] text-slate"
           >
             An administrator must reset passwords for this workspace. Contact
             your workspace owner.
@@ -134,8 +172,8 @@ export default function LoginPage() {
         )}
 
         <p className="text-[11px] text-slate-2 mt-6 text-center">
-          Documents in this workspace never leave EM&rsquo;s
-          controlled infrastructure.
+          Documents in this workspace never leave EM&rsquo;s controlled
+          infrastructure.
         </p>
       </div>
     </div>
