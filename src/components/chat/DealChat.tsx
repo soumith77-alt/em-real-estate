@@ -7,6 +7,7 @@ import { Send, Sparkles, User as UserIcon } from "lucide-react";
 
 interface Props {
   deal: Deal;
+  initialQuery?: string;
 }
 
 interface Msg {
@@ -109,7 +110,7 @@ function scriptedReply(deal: Deal, q: string): Msg {
   );
 }
 
-export function DealChat({ deal }: Props) {
+export function DealChat({ deal, initialQuery }: Props) {
   const [msgs, setMsgs] = useState<Msg[]>(() => [
     {
       id: "greeting",
@@ -121,12 +122,21 @@ export function DealChat({ deal }: Props) {
   const [q, setQ] = useState("");
   const [thinking, setThinking] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+  const primed = useRef(false);
 
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
   }, [msgs, thinking]);
+
+  // Auto-send an initial query when arriving from a suggested-question link.
+  useEffect(() => {
+    if (!initialQuery || primed.current) return;
+    primed.current = true;
+    void send(initialQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQuery]);
 
   async function send(text: string) {
     if (!text.trim() || thinking) return;

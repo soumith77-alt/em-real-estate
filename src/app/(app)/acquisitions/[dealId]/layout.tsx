@@ -7,14 +7,19 @@ import { ConfidentialityBadge } from "@/components/shell/ConfidentialityBadge";
 import type { Deal } from "@/types";
 import { fmtCAD, fmtSqft, fmtDate } from "@/lib/format";
 import { cn } from "@/lib/cn";
+import { Sparkles } from "lucide-react";
 
-const TABS = [
+const TABS: {
+  href: string;
+  label: string;
+  icon?: typeof Sparkles;
+}[] = [
   { href: "", label: "Overview" },
   { href: "/data-room", label: "Data room" },
   { href: "/run", label: "Run" },
   { href: "/report", label: "Report" },
   { href: "/model", label: "Model" },
-  { href: "/chat", label: "Chat" },
+  { href: "/chat", label: "Chat", icon: Sparkles },
 ];
 
 export default function DealLayout({
@@ -70,18 +75,23 @@ export default function DealLayout({
           <nav className="mt-4 flex items-center gap-1">
             {TABS.map((t) => {
               const href = `/acquisitions/${dealId}${t.href}`;
-              const active = pathname === href || (t.href === "" && pathname === `/acquisitions/${dealId}`);
+              const active =
+                pathname === href ||
+                (t.href === "" && pathname === `/acquisitions/${dealId}`);
+              const Icon = t.icon;
               return (
                 <Link
                   key={t.href}
                   href={href}
                   className={cn(
-                    "h-8 px-3 text-[12px] rounded-t-sm border-b-2 -mb-px transition-colors flex items-center",
+                    "h-9 px-3 text-[12px] rounded-t-md border-b-2 -mb-px transition-colors inline-flex items-center gap-1.5",
                     active
                       ? "border-blueprint text-ink font-medium"
                       : "border-transparent text-slate hover:text-ink",
+                    !active && Icon && "text-blueprint",
                   )}
                 >
+                  {Icon && <Icon size={12} />}
                   {t.label}
                 </Link>
               );

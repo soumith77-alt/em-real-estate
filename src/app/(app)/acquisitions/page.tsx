@@ -6,7 +6,7 @@ import { fmtCAD, fmtSqft, fmtDate, daysUntil } from "@/lib/format";
 import type { Deal, DealStage } from "@/types";
 import { TableSkeleton } from "@/components/data/Skeletons";
 import { cn } from "@/lib/cn";
-import { ArrowRight, Building2 } from "lucide-react";
+import { ArrowRight, Building2, Sparkles } from "lucide-react";
 
 const STAGE_LABEL: Record<DealStage, string> = {
   "brochure-received": "Brochure",
@@ -270,13 +270,26 @@ export default function AcquisitionsPage() {
                       {fmtDate(d.lastActivity)}
                     </td>
                     <td className="px-3 py-2.5 text-right">
-                      <Link
-                        href={`/acquisitions/${d.id}`}
-                        className="inline-flex text-slate-2 group-hover:text-blueprint group-hover:translate-x-0.5 transition-all"
-                        aria-label="Open deal"
-                      >
-                        <ArrowRight size={14} />
-                      </Link>
+                      <span className="inline-flex items-center gap-2">
+                        <Link
+                          href={`/acquisitions/${d.id}/chat`}
+                          className="inline-flex items-center gap-1 h-6 px-1.5 rounded border border-transparent text-slate-2 hover:text-blueprint hover:border-blueprint/30 hover:bg-blueprint-tint transition-all"
+                          aria-label="Chat about this deal"
+                          title="Talk to the deal agent"
+                        >
+                          <Sparkles size={11} />
+                          <span className="text-[10px] uppercase tracking-wider font-medium">
+                            Chat
+                          </span>
+                        </Link>
+                        <Link
+                          href={`/acquisitions/${d.id}`}
+                          className="inline-flex text-slate-2 group-hover:text-blueprint group-hover:translate-x-0.5 transition-all"
+                          aria-label="Open deal"
+                        >
+                          <ArrowRight size={14} />
+                        </Link>
+                      </span>
                     </td>
                   </tr>
                 );
