@@ -35,7 +35,7 @@ const groups: NavGroup[] = [
     items: [{ href: "/home", label: "Today", icon: LayoutDashboard }],
   },
   {
-    heading: "Workflows",
+    heading: "Agents",
     items: [
       { href: "/acquisitions", label: "Acquisitions", icon: Building2, accent: "acq" },
       {
@@ -95,14 +95,15 @@ export function Sidebar() {
       )}
     >
       <div className="h-[60px] flex items-center px-4 border-b border-white/[0.06]">
-        <div
-          className="grid place-items-center h-8 w-8 rounded-md font-display font-semibold tracking-tight text-[13px] text-ink"
-          style={{
-            background:
-              "linear-gradient(135deg, var(--card) 0%, var(--accent-lea-tint) 100%)",
-          }}
-        >
-          EM
+        <div className="grid place-items-center h-8 w-8 rounded-md bg-card font-display text-ink text-[13px] font-medium leading-none">
+          <span className="inline-flex items-center gap-[3px]">
+            <span>e</span>
+            <span
+              className="inline-block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--blueprint)" }}
+            />
+            <span>m</span>
+          </span>
         </div>
         {!collapsed && (
           <div className="ml-2.5 leading-none">

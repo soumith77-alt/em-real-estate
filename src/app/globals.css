@@ -1,17 +1,12 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/* Self-hosted fonts — see public/fonts/README.md                     */
-/* If the woff2 files are absent, the platform fallback stack below   */
-/* keeps metrics close enough that layout does not shift.             */
+/* Fonts — aligned to EM's brand system (em-style-guide/em-tokens.css) */
+/* Source Serif 4 for display headlines, Inter for body, JetBrains    */
+/* Mono for numbers. Local .woff2 stays as fallback if present.       */
 /* ------------------------------------------------------------------ */
-@font-face {
-  font-family: "Archivo";
-  src: url("/fonts/archivo-variable.woff2") format("woff2-variations");
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: normal;
-}
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
 @font-face {
   font-family: "Public Sans";
   src: url("/fonts/public-sans-variable.woff2") format("woff2-variations");
@@ -19,77 +14,66 @@
   font-display: swap;
   font-style: normal;
 }
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("/fonts/plex-mono-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-  font-style: normal;
-}
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("/fonts/plex-mono-medium.woff2") format("woff2");
-  font-weight: 500;
-  font-display: swap;
-  font-style: normal;
-}
 
 /* ------------------------------------------------------------------ */
-/* Design tokens — warmed palette, 13 Aug 2026 redesign               */
-/* Names preserved from original so all existing usages resolve; only */
-/* the *values* shifted. This is the single change that reflows the   */
-/* whole app's aesthetic without touching individual components.      */
+/* Design tokens — aligned to EM Real Estate brand system (14 Aug '26) */
+/* Values mirror em-style-guide/em-tokens.css (EM Blue #5BA8D1,       */
+/* em-navy, em-paper, em-line, Source Serif + JetBrains Mono).        */
+/* Our token names stay so every existing usage in the app resolves.  */
 /* ------------------------------------------------------------------ */
 :root {
-  /* Surfaces — warm neutrals */
-  --paper: #f7f5f1;
-  --card: #ffffff;
-  --card-2: #f1eee9;
-  --rule: #e4e0da;
-  --rule-2: #ede9e2;
+  /* Surfaces */
+  --paper: #f6f4ef; /* em-paper — warm tinted surface */
+  --card: #fbfaf7; /* em-bg — default page bg for cards on paper */
+  --card-2: #f0ede6; /* subtle raised bg for table headers */
+  --rule: #e3e7eb; /* em-line */
+  --rule-2: #ecefF2;
 
-  /* Ink — warm dark, not blue-black */
-  --ink: #1e1b18;
-  --slate: #4a4640;
-  --slate-2: #6d675e;
+  /* Ink */
+  --ink: #1b2a3a; /* em-navy */
+  --slate: #5c6b7a; /* em-slate */
+  --slate-2: #8896a4; /* em-mute */
 
-  /* Primary accent — deep teal (kept token name "blueprint" so refs work) */
-  --blueprint: #1f5a6d;
-  --blueprint-hover: #17475a;
-  --blueprint-tint: #dcebf0;
+  /* Primary accent — EM Blue. Token name "blueprint" preserved. */
+  --blueprint: #5ba8d1; /* em-blue: the signature */
+  --blueprint-hover: #2f7ba8; /* em-blue-deep */
+  --blueprint-tint: #e8f2f8; /* em-blue-tint */
 
-  /* State colors — friendlier, more saturated but still grown-up */
-  --pass: #2e7d5c;
-  --pass-tint: #dceee5;
-  --fail: #b8412b;
-  --fail-tint: #f4ddd5;
-  --na: #8a8378;
-  --na-tint: #e8e4dd;
-  --signal: #c97f16;
-  --signal-tint: #f7e7cb;
+  /* State colors — from em-tokens */
+  --pass: #4f8a6a; /* em-success */
+  --pass-tint: #e2eee7;
+  --fail: #b5503c; /* em-danger */
+  --fail-tint: #f2ded7;
+  --na: #8896a4;
+  --na-tint: #e3e7eb;
+  --signal: #c7913b; /* em-warn */
+  --signal-tint: #f5e6c8;
 
-  /* Per-section accent hints — used sparingly for identity */
-  --accent-acq: #5b4cbb; /* acquisitions: deep violet */
-  --accent-acq-tint: #e7e3f7;
-  --accent-lea: #c97f16; /* leasing: amber (aligns with signal) */
-  --accent-lea-tint: #f7e7cb;
-  --accent-know: #1f5a6d; /* knowledge: teal (aligns with primary) */
-  --accent-know-tint: #dcebf0;
+  /* Per-section accents — restrained. EM style guide is "one blue per     */
+  /* screen", so we use these only for tiny identifier chips, never as     */
+  /* body colour. Colours pulled from status palette to stay in family.    */
+  --accent-acq: #2f7ba8; /* acquisitions: em-blue-deep */
+  --accent-acq-tint: #e8f2f8;
+  --accent-lea: #c7913b; /* leasing: em-warn */
+  --accent-lea-tint: #f5e6c8;
+  --accent-know: #4f8a6a; /* knowledge: em-success */
+  --accent-know-tint: #e2eee7;
 
-  /* Shadows — soft, warm */
-  --shadow-sm: 0 1px 2px rgba(30, 27, 24, 0.04),
-    0 1px 3px rgba(30, 27, 24, 0.06);
-  --shadow-md: 0 2px 8px rgba(30, 27, 24, 0.05),
-    0 4px 16px rgba(30, 27, 24, 0.04);
-  --shadow-lg: 0 8px 24px rgba(30, 27, 24, 0.08),
-    0 12px 40px rgba(30, 27, 24, 0.06);
+  /* Shadows — closer to em-shadow-card */
+  --shadow-sm: 0 1px 0 rgba(27, 42, 58, 0.04),
+    0 4px 12px -8px rgba(27, 42, 58, 0.14);
+  --shadow-md: 0 1px 0 rgba(27, 42, 58, 0.04),
+    0 8px 24px -12px rgba(27, 42, 58, 0.18);
+  --shadow-lg: 0 12px 32px -8px rgba(27, 42, 58, 0.16),
+    0 24px 60px -20px rgba(27, 42, 58, 0.22);
 
   --font-display:
-    "Archivo", "Segoe UI", system-ui, -apple-system, sans-serif;
+    "Source Serif 4", Georgia, "Times New Roman", serif;
   --font-body:
-    "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+    "Inter", "Public Sans", system-ui, -apple-system, "Segoe UI", Helvetica,
+    Arial, sans-serif;
   --font-mono:
-    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 @theme inline {
@@ -162,14 +146,23 @@ button {
   font-feature-settings: "tnum" 1;
 }
 
-/* Eyebrow labels: display font, small caps, tracked */
+/* Eyebrow labels: sans (per em-style-guide), tracked, uppercase */
 .eyebrow {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--slate);
-  font-weight: 500;
+  font-weight: 600;
+}
+
+/* Display headline — the one-serif-headline-per-screen from em-style-guide */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  line-height: 1.1;
 }
 
 /* Data cell — mono, right-aligned, no font shift on hover */

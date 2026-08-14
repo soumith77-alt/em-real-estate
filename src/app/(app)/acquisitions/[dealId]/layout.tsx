@@ -14,6 +14,7 @@ const TABS = [
   { href: "/run", label: "Run" },
   { href: "/report", label: "Report" },
   { href: "/model", label: "Model" },
+  { href: "/chat", label: "Chat" },
 ];
 
 export default function DealLayout({

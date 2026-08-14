@@ -29,26 +29,16 @@ export default async function HomePage() {
 
   return (
     <div className="relative">
-      {/* Hero band */}
-      <div
-        className="absolute inset-x-0 top-0 h-[220px] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, var(--accent-know-tint) 0%, transparent 100%)",
-          opacity: 0.6,
-        }}
-      />
-
       <div className="relative max-w-[1400px] mx-auto px-6 py-8">
         <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
             <div className="eyebrow mb-1.5">
               Today · Thursday, 13 August · Montréal
             </div>
-            <h1 className="font-display text-[30px] font-medium tracking-tight text-ink leading-tight">
+            <h1 className="display text-[38px] leading-[1.05] mt-1">
               Good morning, Kyle.
             </h1>
-            <p className="text-[13px] text-slate mt-1">
+            <p className="text-[14px] text-slate mt-2 max-w-lg">
               Three deals on the desk, one search finished overnight.
             </p>
           </div>

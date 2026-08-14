@@ -29,39 +29,23 @@ export default function LoginPage() {
 
   return (
     <div className="relative min-h-screen grid place-items-center bg-paper px-4 overflow-hidden">
-      {/* Ambient background wash */}
-      <div
-        className="absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, var(--accent-know-tint) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute -bottom-40 -left-40 w-[420px] h-[420px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, var(--accent-lea-tint) 0%, transparent 70%)",
-          opacity: 0.7,
-        }}
-      />
-
       <div className="relative w-full max-w-[440px]">
         <div className="mb-8 flex items-center gap-3">
-          <div
-            className="grid place-items-center h-10 w-10 rounded-lg font-display font-semibold tracking-tight text-ink text-[15px] shadow-sm"
-            style={{
-              background:
-                "linear-gradient(135deg, #ffffff 0%, var(--accent-lea-tint) 100%)",
-            }}
-          >
-            EM
+          <div className="grid place-items-center h-10 w-10 rounded-md bg-card border border-rule text-ink text-[15px] font-medium leading-none shadow-sm">
+            <span className="inline-flex items-center gap-[3px]">
+              <span>e</span>
+              <span
+                className="inline-block h-2 w-2 rounded-full"
+                style={{ background: "var(--blueprint)" }}
+              />
+              <span>m</span>
+            </span>
           </div>
           <div>
-            <div className="font-display text-[16px] font-medium tracking-tight text-ink">
+            <div className="display text-[18px] font-medium">
               EM Real Estate
             </div>
-            <div className="eyebrow !text-slate-2">Private workspace</div>
+            <div className="eyebrow !text-slate-2 mt-0.5">Private workspace</div>
           </div>
         </div>
 
@@ -71,9 +55,7 @@ export default function LoginPage() {
           style={{ boxShadow: "var(--shadow-md)" }}
         >
           <div>
-            <h1 className="font-display text-[22px] font-medium tracking-tight text-ink">
-              Sign in
-            </h1>
+            <h1 className="display text-[26px]">Sign in.</h1>
             <p className="text-[13px] text-slate mt-1.5">
               This workspace is private to EM Real Estate.
             </p>
