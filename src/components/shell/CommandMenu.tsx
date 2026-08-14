@@ -46,7 +46,7 @@ export function CommandMenu() {
 
   return (
     <div
-      className="fixed inset-0 z-50 grid place-items-start pt-[15vh] px-4 bg-ink/40"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4 bg-ink/40"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) setOpen(false);
       }}
