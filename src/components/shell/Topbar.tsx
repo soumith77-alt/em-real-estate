@@ -1,10 +1,11 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { Plus, Search } from "lucide-react";
-import { useState } from "react";
+import { Plus, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useUiStore } from "@/stores/useUiStore";
 import { useSession } from "@/stores/useSession";
 import { NewDialog } from "./NewDialog";
+import { WorkspaceChat } from "@/components/chat/WorkspaceChat";
 
 function crumbs(pathname: string) {
   const parts = pathname.split("/").filter(Boolean);
@@ -19,12 +20,27 @@ function crumbs(pathname: string) {
 export function Topbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const setCommandOpen = useUiStore((s) => s.setCommandOpen);
   const user = useSession((s) => s.user);
   const density = useUiStore((s) => s.density);
   const setDensity = useUiStore((s) => s.setDensity);
   const [newOpen, setNewOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const c = crumbs(pathname);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setChatOpen((v) => !v);
+      }
+      if (e.key === "Escape") {
+        setChatOpen(false);
+        setNewOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <>
@@ -43,20 +59,20 @@ export function Topbar() {
         <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => setNewOpen(true)}
-            className="inline-flex items-center gap-1.5 h-9 px-3 bg-blueprint text-card rounded-md text-[12px] font-medium hover:bg-blueprint-hover transition-all duration-150 shadow-sm"
+            className="inline-flex items-center gap-1.5 h-9 px-3 border border-rule bg-card rounded-md text-[12px] text-ink hover:border-blueprint hover:bg-paper transition-all duration-150"
           >
             <Plus size={13} /> New
           </button>
 
           <button
-            onClick={() => setCommandOpen(true)}
-            className="flex items-center gap-2.5 h-9 pl-3 pr-2 border border-rule bg-paper hover:border-blueprint/60 hover:bg-card rounded-md text-[12px] text-slate min-w-[300px] transition-all duration-150"
+            onClick={() => setChatOpen(true)}
+            className="flex items-center gap-2.5 h-9 pl-3 pr-2 bg-blueprint text-card rounded-md text-[12px] font-medium min-w-[300px] hover:bg-blueprint-hover shadow-sm transition-all duration-150"
           >
-            <Search size={13} className="text-slate-2" />
+            <Sparkles size={13} />
             <span className="flex-1 text-left">
-              Search properties, tenants, deals…
+              Ask the workspace agent
             </span>
-            <kbd className="font-mono text-[10px] px-1.5 py-0.5 bg-card border border-rule rounded text-slate-2">
+            <kbd className="font-mono text-[10px] px-1.5 py-0.5 bg-blueprint-hover/70 border border-card/20 rounded text-card/90">
               ⌘K
             </kbd>
           </button>
@@ -98,6 +114,7 @@ export function Topbar() {
           router.push(href);
         }}
       />
+      <WorkspaceChat open={chatOpen} onClose={() => setChatOpen(false)} />
     </>
   );
 }
