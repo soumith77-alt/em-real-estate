@@ -1,11 +1,10 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { Plus, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUiStore } from "@/stores/useUiStore";
 import { useSession } from "@/stores/useSession";
 import { NewDialog } from "./NewDialog";
-import { WorkspaceChat } from "@/components/chat/WorkspaceChat";
 
 function crumbs(pathname: string) {
   const parts = pathname.split("/").filter(Boolean);
@@ -23,24 +22,9 @@ export function Topbar() {
   const user = useSession((s) => s.user);
   const density = useUiStore((s) => s.density);
   const setDensity = useUiStore((s) => s.setDensity);
+  const setChatOpen = useUiStore((s) => s.setChatOpen);
   const [newOpen, setNewOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
   const c = crumbs(pathname);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setChatOpen((v) => !v);
-      }
-      if (e.key === "Escape") {
-        setChatOpen(false);
-        setNewOpen(false);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
 
   return (
     <>
@@ -66,12 +50,10 @@ export function Topbar() {
 
           <button
             onClick={() => setChatOpen(true)}
-            className="flex items-center gap-2.5 h-9 pl-3 pr-2 bg-blueprint text-card rounded-md text-[12px] font-medium min-w-[300px] hover:bg-blueprint-hover shadow-sm transition-all duration-150"
+            className="flex items-center gap-2.5 h-9 pl-3 pr-2 bg-blueprint text-card rounded-md text-[12px] font-medium min-w-[280px] hover:bg-blueprint-hover shadow-sm transition-all duration-150"
           >
             <Sparkles size={13} />
-            <span className="flex-1 text-left">
-              Ask the workspace agent
-            </span>
+            <span className="flex-1 text-left">Ask the workspace agent</span>
             <kbd className="font-mono text-[10px] px-1.5 py-0.5 bg-blueprint-hover/70 border border-card/20 rounded text-card/90">
               ⌘K
             </kbd>
@@ -114,7 +96,6 @@ export function Topbar() {
           router.push(href);
         }}
       />
-      <WorkspaceChat open={chatOpen} onClose={() => setChatOpen(false)} />
     </>
   );
 }

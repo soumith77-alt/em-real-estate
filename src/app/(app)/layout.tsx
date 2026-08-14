@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/shell/Sidebar";
 import { Topbar } from "@/components/shell/Topbar";
+import { ChatLayer } from "@/components/chat/ChatLayer";
 
 export default function AppShell({
   children,
@@ -13,6 +14,7 @@ export default function AppShell({
         <Topbar />
         <main className="flex-1 overflow-x-hidden">{children}</main>
       </div>
+      <ChatLayer />
     </div>
   );
 }
