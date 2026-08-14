@@ -46,28 +46,32 @@ export default function LeasingBoard() {
   );
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 py-6">
-      <div className="flex items-baseline justify-between mb-1">
-        <div>
-          <div className="eyebrow">Leasing · Tenant search</div>
-          <h1 className="font-display text-[24px] font-medium tracking-tight text-ink mt-0.5">
-            Vacancy board
-          </h1>
+    <div className="page">
+      <div className="flex items-baseline justify-between mb-3 flex-wrap gap-4">
+        <div className="max-w-2xl">
+          <div className="eyebrow mb-3">Leasing · Tenant search</div>
+          <h1 className="display text-[36px]">Vacancy board.</h1>
+          <p className="text-[14px] text-slate mt-3 leading-relaxed">
+            Every unit currently vacant or under notice. Pick one to start a
+            tenant search — the workspace already knows the unit&rsquo;s size,
+            format, features, and the legal restrictions that apply on its
+            property.
+          </p>
         </div>
         {units && (
-          <div className="text-[12px] text-slate">
-            {filtered.length} of {units.length} vacant / notice-given units
+          <div className="text-right">
+            <div className="eyebrow !text-slate-2">On the board</div>
+            <div className="font-mono text-[32px] text-ink leading-none mt-2">
+              {filtered.length}
+            </div>
+            <div className="text-[10px] text-slate-2 mt-1">
+              of {units.length} shown
+            </div>
           </div>
         )}
       </div>
-      <p className="text-[13px] text-slate max-w-2xl mb-6">
-        Every unit currently vacant or under notice. Pick one to start a
-        tenant search — the workspace already knows the unit&rsquo;s size,
-        format, features, and the legal restrictions that apply on its
-        property.
-      </p>
 
-      <div className="flex gap-2 mb-4 flex-wrap">
+      <div className="flex gap-2 mb-6 mt-8 flex-wrap">
         <Chip label="Tier" value={tier} onChange={setTier} options={["all", "small-town", "mid-market", "major-city"]} />
         <Chip label="Province" value={province} onChange={setProvince} options={["all", "QC", "ON", "NB", "NS", "PE", "NL"]} />
         <Chip label="Format" value={format} onChange={setFormat} options={["all", "inline", "end-cap", "freestanding", "anchor", "pad"]} />

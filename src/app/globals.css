@@ -173,12 +173,27 @@ button {
 }
 
 /* Card utility — the new default surface for raised content.
-   Softer than a hairline border, warmer than a flat panel. */
+   Softer than a hairline border, warmer than a flat panel. Corner
+   radius shifted up to 10px to feel more spacious per the reference. */
 .card {
   background: var(--card);
   border: 1px solid var(--rule);
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: var(--shadow-sm);
+}
+
+/* Section container — bumps up the vertical rhythm of any page. */
+.page {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px 32px 56px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 24px 16px 40px;
+  }
 }
 .card-lift {
   transition:

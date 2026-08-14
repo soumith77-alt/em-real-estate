@@ -47,7 +47,7 @@ export function StatBlock({
   const inner = (
     <div
       className={cn(
-        "card card-lift relative overflow-hidden h-full flex flex-col justify-between p-4 pb-5",
+        "card card-lift relative overflow-hidden h-full flex flex-col justify-between p-6 pb-7",
         className,
       )}
     >
@@ -56,17 +56,17 @@ export function StatBlock({
         {Icon && (
           <div
             className={cn(
-              "grid place-items-center h-7 w-7 rounded-md",
+              "grid place-items-center h-8 w-8 rounded-md",
               accentBg[accent],
             )}
           >
-            <Icon size={13} />
+            <Icon size={14} />
           </div>
         )}
       </div>
       <div
         className={cn(
-          "font-mono text-[28px] leading-none font-medium mt-3",
+          "font-mono text-[32px] leading-none font-medium mt-5",
           toneClass[tone],
         )}
         style={{ fontVariantNumeric: "tabular-nums" }}
@@ -74,7 +74,9 @@ export function StatBlock({
         {value}
       </div>
       {hint && (
-        <div className="text-[11px] text-slate mt-2 leading-tight">{hint}</div>
+        <div className="text-[11.5px] text-slate mt-3 leading-snug">
+          {hint}
+        </div>
       )}
       <span
         className={cn(

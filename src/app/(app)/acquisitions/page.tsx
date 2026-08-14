@@ -87,26 +87,26 @@ export default function AcquisitionsPage() {
   }, [deals]);
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 py-8">
-      <div className="flex items-baseline justify-between mb-2">
-        <div>
-          <div className="eyebrow">Acquisitions · Agent</div>
-          <h1 className="display text-[30px] mt-1">Deal pipeline.</h1>
-          <p className="text-[13px] text-slate mt-1.5 max-w-2xl">
+    <div className="page">
+      <div className="flex items-baseline justify-between mb-3 flex-wrap gap-4">
+        <div className="max-w-2xl">
+          <div className="eyebrow mb-3">Acquisitions · Agent</div>
+          <h1 className="display text-[36px]">Deal pipeline.</h1>
+          <p className="text-[14px] text-slate mt-3 leading-relaxed">
             Every deal currently under evaluation, grouped by stage. Click any deal for its data
             room, underwriting run, report, model, and per-deal chat.
           </p>
         </div>
         <div className="text-right">
           <div className="eyebrow !text-slate-2">On the desk</div>
-          <div className="font-mono text-[28px] text-ink leading-none mt-1">
+          <div className="font-mono text-[32px] text-ink leading-none mt-2">
             {stats.evaluating.length}
           </div>
         </div>
       </div>
 
       {/* Summary strip */}
-      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-5">
         <SummaryTile
           label="Evaluating"
           value={stats.evaluating.length}
@@ -136,7 +136,7 @@ export default function AcquisitionsPage() {
       </div>
 
       {/* View tabs */}
-      <div className="mt-6 flex items-center gap-1 border-b border-rule">
+      <div className="mt-10 flex items-center gap-1 border-b border-rule">
         {(
           [
             { key: "evaluating", label: "Currently evaluating", count: stats.evaluating.length },
@@ -299,7 +299,7 @@ export default function AcquisitionsPage() {
         </div>
       )}
 
-      <div className="mt-5 text-[11px] text-slate-2 max-w-2xl">
+      <div className="mt-8 text-[11.5px] text-slate-2 max-w-2xl leading-relaxed">
         Every deal here is one Kyle chose to work on. Nothing gets added to this pipeline
         automatically — new deals start when you log them via the &ldquo;New&rdquo; button in the
         top bar.
@@ -322,25 +322,25 @@ function SummaryTile({
   icon?: React.ReactNode;
 }) {
   return (
-    <div className="card p-4">
+    <div className="card p-6">
       <div className="flex items-start justify-between">
         <div className="eyebrow">{label}</div>
         {icon && (
-          <div className="grid place-items-center h-6 w-6 rounded-md bg-blueprint-tint text-blueprint">
+          <div className="grid place-items-center h-7 w-7 rounded-md bg-blueprint-tint text-blueprint">
             {icon}
           </div>
         )}
       </div>
       <div
         className={cn(
-          "font-mono text-[24px] leading-none mt-2 tabular-nums",
+          "font-mono text-[28px] leading-none mt-4 tabular-nums",
           tone === "signal" ? "text-signal" : "text-ink",
         )}
       >
         {value}
       </div>
       {hint && (
-        <div className="text-[11px] text-slate mt-2 leading-snug">{hint}</div>
+        <div className="text-[11.5px] text-slate mt-3 leading-snug">{hint}</div>
       )}
     </div>
   );
